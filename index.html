@@ -6,146 +6,138 @@
 <title>이고그램 · OK그램 체크리스트 (KTAA식)</title>
 <style>
   :root{
-    --bg:#f4f4f2;
-    --panel:#ffffff;
-    --ink:#1d1d1f;
-    --muted:#6b6b70;
-    --line:#d8d8d4;
-    --accent:#2b2b2b;
-    --ego:#1f6feb;   /* 이고그램 선 */
-    --ok:#d9480f;    /* OK그램 선 */
-    --sel:#1d1d1f;
+    --bg:#f4f4f2; --panel:#ffffff; --ink:#1d1d1f; --muted:#6b6b70;
+    --line:#d8d8d4; --sel:#1d1d1f;
+    --ego:#1f6feb; --ok:#d9480f;
+    --bandM:#cfcfca; --bandF:#e6e6e2;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
-  body{
-    font-family:"Noto Sans KR","Apple SD Gothic Neo",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    background:var(--bg);
-    color:var(--ink);
-    line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-  }
+  body{font-family:"Noto Sans KR","Apple SD Gothic Neo",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:1040px;margin:0 auto;padding:28px 20px 80px;}
   header h1{font-size:24px;margin:0 0 6px;letter-spacing:-0.3px;}
   header p{margin:0;color:var(--muted);font-size:14px;}
 
-  .tabs{display:flex;gap:6px;margin:22px 0 0;border-bottom:1px solid var(--line);}
-  .tab{
-    appearance:none;border:none;background:none;cursor:pointer;
-    padding:10px 16px;font-size:15px;font-weight:600;color:var(--muted);
-    border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;
-  }
+  .tabs{display:flex;gap:6px;margin:22px 0 0;border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  .tab{appearance:none;border:none;background:none;cursor:pointer;padding:10px 16px;font-size:15px;font-weight:600;
+    color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;}
   .tab.active{color:var(--ink);border-bottom-color:var(--ink);}
+  .panel{display:none;} .panel.active{display:block;}
 
-  .panel{display:none;}
-  .panel.active{display:block;}
-
-  .scale-guide{
-    background:var(--panel);border:1px solid var(--line);border-radius:10px;
-    padding:12px 16px;margin:18px 0;font-size:13px;color:var(--muted);
-    display:flex;flex-wrap:wrap;gap:14px;align-items:center;
-  }
+  .scale-guide{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:18px 0;
+    font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
   .scale-guide b{color:var(--ink);}
 
-  .q{
-    background:var(--panel);border:1px solid var(--line);border-radius:10px;
-    padding:14px 16px;margin-bottom:10px;
-    display:flex;flex-wrap:wrap;align-items:center;gap:12px;justify-content:space-between;
-  }
+  .q{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:10px;
+    display:flex;flex-wrap:wrap;align-items:center;gap:12px;justify-content:space-between;}
   .q.answered{border-color:#c2cfe0;}
   .q .qtext{flex:1 1 380px;font-size:14.5px;}
   .q .qnum{color:var(--muted);font-weight:700;margin-right:6px;}
   .opts{display:flex;gap:6px;flex:0 0 auto;}
-  .opt{
-    appearance:none;border:1px solid var(--line);background:#fafafa;cursor:pointer;
-    width:64px;padding:6px 4px;border-radius:8px;text-align:center;font-family:inherit;
-    font-size:11px;color:var(--muted);line-height:1.25;transition:all .12s;
-  }
+  .opt{appearance:none;border:1px solid var(--line);background:#fafafa;cursor:pointer;width:64px;padding:6px 4px;
+    border-radius:8px;text-align:center;font-family:inherit;font-size:11px;color:var(--muted);line-height:1.25;transition:all .12s;}
   .opt .n{display:block;font-size:15px;font-weight:700;color:var(--ink);}
   .opt:hover{border-color:#9aa0a6;}
   .opt.sel{background:var(--sel);border-color:var(--sel);color:#fff;}
   .opt.sel .n{color:#fff;}
 
-  .bar{
-    position:sticky;bottom:0;left:0;right:0;margin-top:22px;
-    background:rgba(244,244,242,.92);backdrop-filter:blur(6px);
-    border-top:1px solid var(--line);padding:12px 0;
-    display:flex;gap:12px;align-items:center;flex-wrap:wrap;
-  }
-  .progress{font-size:13px;color:var(--muted);}
-  .progress b{color:var(--ink);}
-  button.action{
-    appearance:none;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;
-    border-radius:9px;padding:10px 18px;border:1px solid var(--ink);
-  }
-  button.primary{background:var(--ink);color:#fff;}
-  button.ghost{background:transparent;color:var(--ink);border-color:var(--line);}
+  .bar{position:sticky;bottom:0;left:0;right:0;margin-top:22px;background:rgba(244,244,242,.92);backdrop-filter:blur(6px);
+    border-top:1px solid var(--line);padding:12px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+  .progress{font-size:13px;color:var(--muted);} .progress b{color:var(--ink);}
+  button.action{appearance:none;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;border-radius:9px;
+    padding:10px 18px;border:1px solid var(--ink);}
+  button.primary{background:var(--ink);color:#fff;} button.ghost{background:transparent;color:var(--ink);border-color:var(--line);}
 
-  /* 결과 */
-  #result{display:none;margin-top:30px;}
-  #result.show{display:block;}
+  #result{display:none;margin-top:24px;} #result.show{display:block;}
   .result-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;}
-  .legend{display:flex;gap:22px;justify-content:center;margin-bottom:8px;font-size:13px;flex-wrap:wrap;}
+  .gender{display:flex;gap:8px;align-items:center;margin-bottom:14px;font-size:13px;color:var(--muted);flex-wrap:wrap;}
+  .gbtn{appearance:none;font-family:inherit;border:1px solid var(--line);background:#fafafa;border-radius:8px;
+    padding:6px 14px;cursor:pointer;font-size:13px;color:var(--ink);}
+  .gbtn.on{background:var(--sel);color:#fff;border-color:var(--sel);}
+  .legend{display:flex;gap:18px;justify-content:center;margin-bottom:8px;font-size:12.5px;flex-wrap:wrap;}
   .legend span{display:inline-flex;align-items:center;gap:7px;}
-  .legend i{width:26px;height:0;border-top:3px solid;display:inline-block;}
+  .legend i.ln{width:24px;height:0;border-top:3px solid;display:inline-block;}
+  .legend i.sw{width:14px;height:11px;border-radius:2px;display:inline-block;border:1px solid #bbb;}
   .legend .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
 
-  .totals{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;justify-content:center;}
-  .tot{
-    border:1px solid var(--line);border-radius:10px;padding:8px 12px;min-width:78px;text-align:center;
-    font-size:12px;color:var(--muted);
-  }
-  .tot b{display:block;font-size:20px;color:var(--ink);}
-  .tot small{font-size:11px;}
-
-  .note{font-size:12px;color:var(--muted);margin-top:16px;line-height:1.6;}
+  .totals{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;justify-content:center;}
+  .tot{border:1px solid var(--line);border-radius:10px;padding:8px 12px;min-width:74px;text-align:center;font-size:12px;color:var(--muted);}
+  .tot b{display:block;font-size:19px;color:var(--ink);}
   svg{width:100%;height:auto;display:block;}
-  @media print{ .tabs,.bar,.tab,.action,#editorNote{display:none!important;} #result{display:block!important;} .panel{display:none!important;} }
+
+  .note{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.6;}
+  .warn{background:#fff7ed;border:1px solid #f3d6b3;color:#9a5a16;border-radius:10px;padding:10px 14px;font-size:13px;margin:14px 0;}
+
+  .interp{margin-top:28px;}
+  .interp h3{font-size:19px;margin:0 0 4px;border-left:4px solid var(--ink);padding-left:11px;}
+  .interp h4{font-size:15px;margin:26px 0 10px;font-weight:800;}
+  .irow{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid #efefec;}
+  .irow:last-child{border-bottom:0;}
+  .iname{flex:0 0 168px;font-weight:700;font-size:13.5px;}
+  .iname small{display:block;color:var(--muted);font-weight:500;font-size:11.5px;}
+  .ibody{flex:1;font-size:13px;color:#333;}
+  .badge{display:inline-block;font-size:11px;font-weight:700;border-radius:6px;padding:2px 9px;margin-left:2px;}
+  .b-high{background:#fdecea;color:#c0392b;} .b-mid{background:#e7f4ea;color:#1e7a36;} .b-low{background:#eaf1fe;color:#1b54b3;}
+  .score-big{font-weight:800;font-size:14px;}
+  .card2{background:#faf9f7;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:8px;}
+  .card2 .ttl{font-weight:800;font-size:14.5px;margin-bottom:6px;}
+  .card2 .sub{font-size:12px;color:var(--muted);margin-bottom:8px;}
+  .areas{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+  .area{border:1px solid var(--line);border-radius:9px;padding:7px 11px;font-size:12px;background:#fff;min-width:120px;}
+  .area.win{border-color:#c0392b;background:#fff4f2;}
+  .area b{font-size:14px;}
+  .disc{font-size:12px;color:var(--muted);background:#f6f6f4;border-radius:8px;padding:10px 13px;line-height:1.6;}
+
+  @media print{.tabs,.bar,.tab,.action,.gender{display:none!important;} #result{display:block!important;} .panel{display:none!important;}}
+  @media (max-width:620px){.iname{flex-basis:100%;} }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <h1>이고-OK그램 (Ego-OK Gram) 체크리스트</h1>
-    <p>KTAA식 · 이고그램 50문항 + OK그램 40문항에 응답하면 꺾은선 그래프로 결과를 그려줍니다.</p>
+    <p>KTAA식 · 이고그램 50문항 + OK그램 40문항에 응답하면 꺾은선 그래프와 해석을 보여줍니다.</p>
   </header>
 
   <div class="tabs">
     <button class="tab active" data-tab="ego">① 이고그램 (50문항)</button>
     <button class="tab" data-tab="ok">② OK그램 (40문항)</button>
-    <button class="tab" data-tab="res" id="resTab">③ 결과 그래프</button>
+    <button class="tab" data-tab="res" id="resTab">③ 결과 · 해석</button>
   </div>
 
-  <!-- 이고그램 -->
   <section class="panel active" id="panel-ego">
-    <div class="scale-guide">
-      <span><b>응답 기준</b></span>
-      <span><b>5</b> 매우긍정</span><span><b>4</b> 약간긍정</span><span><b>3</b> 보통</span><span><b>2</b> 약간부정</span><span><b>1</b> 매우부정</span>
-    </div>
+    <div class="scale-guide"><span><b>응답 기준</b></span>
+      <span><b>5</b> 매우긍정</span><span><b>4</b> 약간긍정</span><span><b>3</b> 보통</span><span><b>2</b> 약간부정</span><span><b>1</b> 매우부정</span></div>
     <div id="ego-list"></div>
   </section>
 
-  <!-- OK그램 -->
   <section class="panel" id="panel-ok">
-    <div class="scale-guide">
-      <span><b>응답 기준</b></span>
-      <span><b>5</b> 매우긍정</span><span><b>4</b> 약간긍정</span><span><b>3</b> 보통</span><span><b>2</b> 약간부정</span><span><b>1</b> 매우부정</span>
-    </div>
+    <div class="scale-guide"><span><b>응답 기준</b></span>
+      <span><b>5</b> 매우긍정</span><span><b>4</b> 약간긍정</span><span><b>3</b> 보통</span><span><b>2</b> 약간부정</span><span><b>1</b> 매우부정</span></div>
     <div id="ok-list"></div>
   </section>
 
-  <!-- 결과 -->
   <section class="panel" id="panel-res">
     <div id="result">
       <div class="result-card">
+        <div class="gender">
+          <span>평균 비교 기준 성별</span>
+          <button class="gbtn" data-g="남">남성</button>
+          <button class="gbtn" data-g="여">여성</button>
+          <span style="font-size:11.5px">— 그래프의 회색 밴드는 해당 성별 ‘보통(평균)’ 범위입니다.</span>
+        </div>
         <div class="legend">
-          <span><i style="border-color:var(--ego)"></i><span class="dot" style="background:var(--ego)"></span> 이고그램 (CP·NP·A·FC·AC)</span>
-          <span><i style="border-color:var(--ok)"></i><span class="dot" style="background:var(--ok)"></span> OK그램 (U-·U+·I+·I-)</span>
+          <span><i class="ln" style="border-color:var(--ego)"></i><span class="dot" style="background:var(--ego)"></span> 이고그램</span>
+          <span><i class="ln" style="border-color:var(--ok)"></i><span class="dot" style="background:var(--ok)"></span> OK그램</span>
+          <span><i class="sw" style="background:var(--bandM)"></i> 남성 평균(보통)</span>
+          <span><i class="sw" style="background:var(--bandF)"></i> 여성 평균(보통)</span>
         </div>
         <div id="chart"></div>
         <div class="totals" id="totals"></div>
+        <p class="note" id="editorNote"></p>
       </div>
-      <p class="note" id="editorNote"></p>
+      <div id="interp" class="interp"></div>
     </div>
   </section>
 
@@ -153,14 +145,12 @@
     <span class="progress" id="progress"></span>
     <span style="flex:1"></span>
     <button class="action ghost" id="resetBtn">초기화</button>
-    <button class="action primary" id="drawBtn">결과 그래프 보기</button>
+    <button class="action primary" id="drawBtn">결과 · 해석 보기</button>
   </div>
 </div>
 
 <script>
-/* ===== 문항 데이터 ===== */
-/* 각 문항: [번호, 문항, 척도]  — 척도 분류는 아래 한 곳에서 수정 가능합니다. */
-
+/* ===== 문항 (마지막 값 = 척도, 한 곳에서 수정 가능) ===== */
 const EGO = [
  [1,"다른 사람을 헐뜯기보다는 칭찬을 잘하는 편이다.","NP"],
  [2,"대화에서 격언, 속담을 잘 인용한다.","CP"],
@@ -213,7 +203,6 @@ const EGO = [
  [49,"“당연히 ~해야 한다” “~하지 않으면 안 된다”는 식의 말투를 잘 쓴다.","CP"],
  [50,"권리를 주장하기 전에 의무를 다한다.","CP"],
 ];
-
 const OK = [
  [1,"나는 나 자신을 좋아한다.","I+"],
  [2,"나는 타인으로부터 호감을 얻지 못하는 인간이다.","I-"],
@@ -256,202 +245,281 @@ const OK = [
  [39,"나는 다른 사람을 이용하여 자신의 입장이나 일을 잘하려고 하는 경향이 있다.","U-"],
  [40,"나는 잘못을 하거나 실망을 하는 경우에도 전향적(前向的)으로 생각할 수 있다.","I+"],
 ];
+const OPT_LABELS=[{n:1,t:"매우부정"},{n:2,t:"약간부정"},{n:3,t:"보통"},{n:4,t:"약간긍정"},{n:5,t:"매우긍정"}];
 
-const OPT_LABELS = [
-  {n:1,t:"매우부정"},{n:2,t:"약간부정"},{n:3,t:"보통"},{n:4,t:"약간긍정"},{n:5,t:"매우긍정"}
+/* ===== KTAA 3등급 '보통(B구간)' 범위 — 평균 밴드 (우재현, 2005) =====
+   [보통하한, 보통상한] : 미만=낮음, 초과=높음 */
+const NORMS={
+  남:{CP:[19,29],NP:[29,38],A:[28,35],FC:[22,30],AC:[19,31]},
+  여:{CP:[17,26],NP:[30,39],A:[25,34],FC:[23,33],AC:[22,32]}
+};
+
+/* ===== 해석 텍스트 (PDF 기반) ===== */
+const EGO_NAME={CP:"비판적 부모 CP",NP:"양육적 부모 NP",A:"어른 A",FC:"자유로운 어린이 FC",AC:"순응적인 어린이 AC"};
+const EGO_INT={
+ CP:{low:"관용적·허용적이나 절제가 부족할 수 있고, 규범·도덕에 무관심하며 비판력이 떨어지는 경향.",
+     mid:"이상 추구·양심·책임감이 균형 있게 나타나는 상태.",
+     high:"지배적·비판적 경향이 강하고, 자신과 타인에게 엄격한 기준을 강요하기 쉬움."},
+ NP:{low:"냉담·방임적 경향, 정서적 온기가 부족하고 인간관계에서 거리감이 느껴질 수 있음.",
+     mid:"헌신적·동정적 특성과 타인 돌봄·지지 행동이 균형 있게 나타남.",
+     high:"과보호·과잉개입 경향으로 상대의 자립심을 저해할 가능성."},
+ A:{low:"즉흥적·감정 중심 판단, 계획성이 부족하고 일관성이 떨어질 수 있음.",
+    mid:"이성적·합리적·냉정한 특성으로 현실적 판단과 의사결정이 균형 있게 나타남.",
+    high:"기계적·무감정 경향(컴퓨터 인간형), 일 중독(Workaholic) 위험."},
+ FC:{low:"폐쇄적·억압적 경향으로 감정 표현이 어렵고 우울·무기력 위험.",
+     mid:"자발적·창조적·적극적 특성과 감정 표현이 균형 있게 나타남.",
+     high:"충동적·자기중심·무책임 경향으로 주변과 갈등이 생길 수 있음."},
+ AC:{low:"독단적·자기중심적 경향, 타협이 어렵고 반항적 행동 가능성.",
+     mid:"순응적·협조적·신중한 특성과 대인관계에서의 배려가 균형 있게 나타남.",
+     high:"자기비하·열등감·의존적 경향으로 감정을 억압하고 타인에게 맞추는 행동."}
+};
+const OK_NAME={"I+":"자기긍정 I+","I-":"자기부정 I-","U+":"타인긍정 U+","U-":"타인부정 U-"};
+const OK_INT={
+ "I+":{high:"자신에 대한 긍정적 인식이 강하고 자존감이 높음 (NP·A·FC와 정적 상관).",
+       mid:"자기긍정 태도가 상황에 따라 유동적으로 나타남.",
+       low:"자기비하·열등감을 경험하기 쉽고 자신의 가치를 낮게 평가하는 경향."},
+ "I-":{high:"자신에 대한 부정적 인식이 강하고 자책감·무력감을 자주 경험 (AC와 강한 정적 상관).",
+       mid:"자기부정 태도가 상황에 따라 유동적으로 나타남.",
+       low:"자신에 대한 부정적 인식이 적고 심리적 안정감이 높은 편."},
+ "U+":{high:"타인에 대한 신뢰·수용이 높고 원만한 대인관계를 형성하는 경향 (NP·FC와 정적 상관).",
+       mid:"타인긍정 태도가 상황에 따라 유동적으로 나타남.",
+       low:"타인에 대한 불신이 강하거나 대인관계에서 거리감을 유지하는 경향."},
+ "U-":{high:"타인에 대한 비판적·불신적 인식이 강하고 갈등 경향 (CP와 강한 정적 상관).",
+       mid:"타인부정 태도가 상황에 따라 유동적으로 나타남.",
+       low:"타인에 대한 부정적 인식이 적고 수용적인 대인관계 경향."}
+};
+/* OK 코랄 영역 (면적법): 면적 = 두 점수의 곱 */
+const POSITIONS=[
+ {key:"IV",calc:(s)=>s["U+"]*s["I+"],title:"Ⅳ영역 · 자타긍정 (I'm OK · You're OK)",
+  desc:"협력·공존형. 자신과 타인을 모두 긍정하는 TA의 이상적 인생태도. 더 좋은 것을 선택하며 즐거운 삶을 유지하고, 서로 배려하며 친밀한 관계를 맺음. 주된 자아상태 FC(자연스러운 어린이)."},
+ {key:"I",calc:(s)=>s["U+"]*s["I-"],title:"Ⅰ영역 · 자기부정·타인긍정 (I'm Not OK · You're OK)",
+  desc:"자책·회의형. 자신을 믿지 못하고 타인의 인정을 구하며 상대에게 의지하려는 태도. 열등감·교류 회피·우울이 나타날 수 있고, 게임에서 희생자(Victim) 역할. 주된 자아상태 AC."},
+ {key:"III",calc:(s)=>s["U-"]*s["I+"],title:"Ⅲ영역 · 자기긍정·타인부정 (I'm OK · You're Not OK)",
+  desc:"독선·배타형. 자신은 과신하지만 타인의 존재·능력을 낮게 보는 태도. ‘나는 항상 옳다’는 인식, 끊임없는 투쟁으로 욕구를 달성, 자기성찰 부족. 박해자(Persecutor)/구원자(Rescuer) 역할."},
+ {key:"II",calc:(s)=>s["U-"]*s["I-"],title:"Ⅱ영역 · 자타부정 (I'm Not OK · You're Not OK)",
+  desc:"불신·포기형. 삶이 무의미·절망적이라 느끼며 자신과 타인을 모두 부정. 인간관계 단절·자폐적 경향. 게임에서 희생자(Victim) 역할. 주된 자아상태 AC."}
+];
+/* 이고그램 대표 7패턴 (서명: CP,NP,A,FC,AC / -1·0·1) */
+const PATTERNS=[
+ {name:"∧형 — 원만 패턴",sig:[0,1,0,0,0],
+  desc:"NP가 최고점이고 전체적으로 안정적. 대인관계 문제가 적고 자신과 타인을 모두 긍정하며 ‘인화(人和)’를 중시. 성격 변화를 원하는 사람의 목표 형태."},
+ {name:"N형 — 헌신 패턴 (나이팅게일)",sig:[0,1,0,-1,1],
+  desc:"NP 높고 FC 낮으며 AC 높음. 타인 배려·온정은 있으나 하고 싶은 말을 못하고 속으로 삭임. 기분 전환이 어려워 스트레스성 질환에 취약. → 적극성을 키우는 연습이 도움."},
+ {name:"역N형 — 자기주장 패턴 (도날드 덕)",sig:[1,-1,0,1,-1],
+  desc:"CP·FC 높고 NP·AC 낮음. 자기중심적이고 책임을 타인에게 돌리며 자기반성이 부족한 경향. 야망이 예능·예술로 향하면 능력 발휘. → 타인의 장점을 칭찬하고 부드럽게 대하는 노력 필요."},
+ {name:"V형 — 갈등 패턴 (햄릿)",sig:[1,-1,-1,-1,1],
+  desc:"CP·AC 높고 NP·A·FC 낮음. 자신·타인에게 완전함을 요구하면서 마음속 갈등을 반복. 책임감·사명감과 평가 불안 사이에서 끊임없이 갈등. → 현실에 근거한 침착·객관적 판단 필요."},
+ {name:"W형 — 고뇌 패턴 (베르테르형)",sig:[1,-1,1,-1,1],
+  desc:"CP·A·AC 높고 NP·FC 낮음. V형에 A까지 높아 현실을 분석하려는 만큼 고민이 심각하고 자포자기·침울 상태가 되기 쉬움. → 즐거움을 찾고 감정을 겉으로 드러내는 연습 필요."},
+ {name:"M형 — 명랑 패턴 (우상형)",sig:[-1,1,-1,1,-1],
+  desc:"NP·FC 높고 CP·A·AC 낮음. 밝고 명랑하며 타인 배려와 호기심이 왕성, 분위기를 주도하는 유쾌한 특성. → 감정에만 치우치지 않도록 현실 판단을 보완하면 좋음."},
+ {name:"우경사형 — 완고 패턴 (보스)",sig:[2,1,0,-1,-2],
+  desc:"CP가 정점이고 오른쪽(AC)으로 갈수록 낮아지는 형. ‘완고함’이 특징이며 AC가 가장 낮아 타인 의견을 잘 듣지 않음. 두통·고혈압에 취약. → 타인 의견을 경청하는 존중의 태도 필요."}
 ];
 
-const store = JSON.parse(localStorage.getItem("egook") || "{}");
-const ans = store.ans || {}; // key: "ego-1" / "ok-1" -> value 1..5
+/* ===== 상태 ===== */
+const store=JSON.parse(localStorage.getItem("egook")||"{}");
+const ans=store.ans||{};
+let gender=store.gender||"남";
 
-/* ===== 문항 렌더링 ===== */
-function renderList(data, prefix, mountId){
-  const m = document.getElementById(mountId);
-  m.innerHTML = "";
-  data.forEach(([num, text])=>{
-    const key = prefix+"-"+num;
-    const row = document.createElement("div");
-    row.className = "q" + (ans[key] ? " answered":"");
-    row.id = "q-"+key;
-    const opts = OPT_LABELS.map(o=>
-      `<button class="opt${ans[key]==o.n?' sel':''}" data-key="${key}" data-v="${o.n}">
-         <span class="n">${o.n}</span>${o.t}</button>`).join("");
-    row.innerHTML = `<div class="qtext"><span class="qnum">${num}.</span>${text}</div>
-                     <div class="opts">${opts}</div>`;
+/* ===== 렌더 ===== */
+function renderList(data,prefix,mountId){
+  const m=document.getElementById(mountId); m.innerHTML="";
+  data.forEach(([num,text])=>{
+    const key=prefix+"-"+num;
+    const row=document.createElement("div");
+    row.className="q"+(ans[key]?" answered":""); row.id="q-"+key;
+    const opts=OPT_LABELS.map(o=>`<button class="opt${ans[key]==o.n?' sel':''}" data-key="${key}" data-v="${o.n}"><span class="n">${o.n}</span>${o.t}</button>`).join("");
+    row.innerHTML=`<div class="qtext"><span class="qnum">${num}.</span>${text}</div><div class="opts">${opts}</div>`;
     m.appendChild(row);
   });
 }
-renderList(EGO,"ego","ego-list");
-renderList(OK,"ok","ok-list");
+renderList(EGO,"ego","ego-list"); renderList(OK,"ok","ok-list");
 
-/* ===== 선택 처리 ===== */
 document.body.addEventListener("click",(e)=>{
-  const b = e.target.closest(".opt");
-  if(!b) return;
-  const key=b.dataset.key, v=+b.dataset.v;
-  ans[key]=v;
-  // 같은 행의 버튼 갱신
-  document.querySelectorAll(`.opt[data-key="${key}"]`).forEach(x=>x.classList.toggle("sel", +x.dataset.v===v));
+  const b=e.target.closest(".opt"); if(!b)return;
+  const key=b.dataset.key,v=+b.dataset.v; ans[key]=v;
+  document.querySelectorAll(`.opt[data-key="${key}"]`).forEach(x=>x.classList.toggle("sel",+x.dataset.v===v));
   document.getElementById("q-"+key).classList.add("answered");
   save(); updateProgress();
 });
-
-function save(){ localStorage.setItem("egook", JSON.stringify({ans})); }
-
-function counts(){
-  let e=0,o=0;
-  EGO.forEach(([n])=>{ if(ans["ego-"+n]) e++; });
-  OK.forEach(([n])=>{ if(ans["ok-"+n]) o++; });
-  return {e,o};
-}
-function updateProgress(){
-  const c=counts();
-  document.getElementById("progress").innerHTML =
-    `이고그램 <b>${c.e}/50</b> · OK그램 <b>${c.o}/40</b> 응답`;
-}
+function save(){ localStorage.setItem("egook",JSON.stringify({ans,gender})); }
+function counts(){ let e=0,o=0; EGO.forEach(([n])=>{if(ans["ego-"+n])e++;}); OK.forEach(([n])=>{if(ans["ok-"+n])o++;}); return {e,o}; }
+function updateProgress(){ const c=counts(); document.getElementById("progress").innerHTML=`이고그램 <b>${c.e}/50</b> · OK그램 <b>${c.o}/40</b> 응답`; }
 updateProgress();
 
-/* ===== 탭 ===== */
 document.querySelectorAll(".tab").forEach(t=>{
   t.addEventListener("click",()=>{
     document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
     document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
-    t.classList.add("active");
-    document.getElementById("panel-"+t.dataset.tab).classList.add("active");
+    t.classList.add("active"); document.getElementById("panel-"+t.dataset.tab).classList.add("active");
     window.scrollTo({top:0,behavior:"smooth"});
   });
 });
 
-/* ===== 집계 ===== */
 function totals(){
-  const ego={CP:0,NP:0,A:0,FC:0,AC:0};
-  const ok={"U-":0,"U+":0,"I+":0,"I-":0};
-  EGO.forEach(([n,,cat])=>{ if(ans["ego-"+n]) ego[cat]+=ans["ego-"+n]; });
-  OK.forEach(([n,,cat])=>{ if(ans["ok-"+n]) ok[cat]+=ans["ok-"+n]; });
+  const ego={CP:0,NP:0,A:0,FC:0,AC:0}, ok={"U-":0,"U+":0,"I+":0,"I-":0};
+  EGO.forEach(([n,,c])=>{ if(ans["ego-"+n])ego[c]+=ans["ego-"+n]; });
+  OK.forEach(([n,,c])=>{ if(ans["ok-"+n])ok[c]+=ans["ok-"+n]; });
   return {ego,ok};
 }
+function egoLevel(state,score){ const n=NORMS[gender][state]; if(score<n[0])return -1; if(score>n[1])return 1; return 0; }
+function okLevel(score){ if(score<=24)return -1; if(score>=40)return 1; return 0; }
+function lvLabel(l){ return l>0?"높음":(l<0?"낮음":"보통"); }
+function lvClass(l){ return l>0?"b-high":(l<0?"b-low":"b-mid"); }
 
-/* ===== 그래프 ===== */
-const COLS = [
-  {key:"CP", ok:"U-", label:"CP", sub:"(U-)", top:["비판적","지배적"], bot:"관용적", group:"P"},
-  {key:"NP", ok:"U+", label:"NP", sub:"(U+)", top:["과보호적","헌신적"], bot:"방임적", group:"P"},
-  {key:"A",  ok:null, label:"A",  sub:"",     top:["기계적","현실적"],  bot:"즉흥적", group:"A"},
-  {key:"FC", ok:"I+", label:"FC", sub:"(I+)", top:["개구쟁이","개방적"], bot:"폐쇄적", group:"C"},
-  {key:"AC", ok:"I-", label:"AC", sub:"(I-)", top:["자기비하","의존적"], bot:"독단적", group:"C"},
+const COLS=[
+ {key:"CP",ok:"U-",label:"CP",sub:"(U-)",top:["비판적","지배적"],bot:"관용적"},
+ {key:"NP",ok:"U+",label:"NP",sub:"(U+)",top:["과보호적","헌신적"],bot:"방임적"},
+ {key:"A", ok:null,label:"A", sub:"",    top:["기계적","현실적"],bot:"즉흥적"},
+ {key:"FC",ok:"I+",label:"FC",sub:"(I+)",top:["개구쟁이","개방적"],bot:"폐쇄적"},
+ {key:"AC",ok:"I-",label:"AC",sub:"(I-)",top:["자기비하","의존적"],bot:"독단적"},
 ];
 
 function drawChart(){
   const {ego,ok}=totals();
-  const W=940, H=560;
-  const padL=120, padR=60, padT=86, padB=120;
-  const plotL=padL, plotR=W-padR, plotT=padT, plotB=H-padB;
-  const colW=(plotR-plotL)/COLS.length;
-  const vMin=10, vMax=50;
-  const y=v=>plotB-(v-vMin)/(vMax-vMin)*(plotB-plotT);
+  const W=940,H=560,padL=120,padR=60,padT=86,padB=120;
+  const plotL=padL,plotR=W-padR,plotT=padT,plotB=H-padB;
+  const colW=(plotR-plotL)/COLS.length, vMin=10,vMax=50;
+  const y=v=>plotB-(Math.max(vMin,Math.min(vMax,v))-vMin)/(vMax-vMin)*(plotB-plotT);
   const cx=i=>plotL+(i+0.5)*colW;
-
   let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans KR, sans-serif">`;
   s+=`<rect x="0" y="0" width="${W}" height="${H}" fill="#fff"/>`;
   s+=`<text x="${(plotL+plotR)/2}" y="34" text-anchor="middle" font-size="19" font-weight="700">당신의 이고-OK그램 (Ego-OK Gram)</text>`;
+  for(let v=vMin;v<=vMax;v+=5){ const yy=y(v);
+    s+=`<line x1="${plotL}" y1="${yy}" x2="${plotR}" y2="${yy}" stroke="#ededea" stroke-width="1"/>`;
+    s+=`<text x="${plotL-12}" y="${yy+4}" text-anchor="end" font-size="11" fill="#888">${v}</text>`; }
 
-  // 가로 눈금선 + 라벨
-  for(let v=vMin; v<=vMax; v+=5){
-    const yy=y(v);
-    s+=`<line x1="${plotL}" y1="${yy}" x2="${plotR}" y2="${yy}" stroke="#e6e6e2" stroke-width="1"/>`;
-    s+=`<text x="${plotL-12}" y="${yy+4}" text-anchor="end" font-size="11" fill="#888">${v}</text>`;
-  }
-  // 세로 구분선
-  for(let i=0;i<=COLS.length;i++){
-    const xx=plotL+i*colW;
-    s+=`<line x1="${xx}" y1="${plotT}" x2="${xx}" y2="${plotB}" stroke="#d8d8d4" stroke-width="1"/>`;
-  }
+  // 남/여 평균(보통) 밴드
+  COLS.forEach((c,i)=>{
+    const cl=plotL+i*colW, mid=cl+colW/2;
+    const mN=NORMS["남"][c.key], fN=NORMS["여"][c.key];
+    s+=`<rect x="${cl+5}" y="${y(mN[1])}" width="${colW/2-6}" height="${y(mN[0])-y(mN[1])}" fill="var(--bandM)" opacity="0.85"/>`;
+    s+=`<rect x="${mid+1}" y="${y(fN[1])}" width="${colW/2-6}" height="${y(fN[0])-y(fN[1])}" fill="var(--bandF)" opacity="0.9"/>`;
+  });
+  for(let i=0;i<=COLS.length;i++){ const xx=plotL+i*colW;
+    s+=`<line x1="${xx}" y1="${plotT}" x2="${xx}" y2="${plotB}" stroke="#d8d8d4" stroke-width="1"/>`; }
   s+=`<line x1="${plotL}" y1="${plotT}" x2="${plotR}" y2="${plotT}" stroke="#bdbdb8" stroke-width="1.5"/>`;
   s+=`<line x1="${plotL}" y1="${plotB}" x2="${plotR}" y2="${plotB}" stroke="#bdbdb8" stroke-width="1.5"/>`;
 
-  // 상단/하단 성향 라벨
-  COLS.forEach((c,i)=>{
-    const x=cx(i);
+  COLS.forEach((c,i)=>{ const x=cx(i);
     s+=`<text x="${x}" y="${plotT-26}" text-anchor="middle" font-size="11" fill="#555">${c.top[0]}</text>`;
     s+=`<text x="${x}" y="${plotT-13}" text-anchor="middle" font-size="11" fill="#555">${c.top[1]}</text>`;
     s+=`<text x="${x}" y="${plotB+22}" text-anchor="middle" font-size="11.5" fill="#555">${c.bot}</text>`;
+    s+=`<text x="${x}" y="${plotB+46}" text-anchor="middle" font-size="15" font-weight="700">${c.label}<tspan font-size="11" font-weight="400">${c.sub}</tspan></text>`;
   });
-
-  // 컬럼 헤더 (CP(U-) 등)
-  COLS.forEach((c,i)=>{
-    const x=cx(i), yh=plotB+46;
-    s+=`<text x="${x}" y="${yh}" text-anchor="middle" font-size="15" font-weight="700">${c.label}<tspan font-size="11" font-weight="400">${c.sub}</tspan></text>`;
-  });
-  // 그룹 바 (P / A / C)
-  const groups=[{n:"P",a:0,b:1},{n:"A",a:2,b:2},{n:"C",a:3,b:4}];
-  const gy=plotB+60;
-  groups.forEach(g=>{
-    const x1=plotL+g.a*colW+6, x2=plotL+(g.b+1)*colW-6;
+  const groups=[{n:"P",a:0,b:1},{n:"A",a:2,b:2},{n:"C",a:3,b:4}], gy=plotB+60;
+  groups.forEach(g=>{ const x1=plotL+g.a*colW+6,x2=plotL+(g.b+1)*colW-6;
     s+=`<line x1="${x1}" y1="${gy}" x2="${x2}" y2="${gy}" stroke="#1d1d1f" stroke-width="1.5"/>`;
-    s+=`<text x="${(x1+x2)/2}" y="${gy+18}" text-anchor="middle" font-size="14" font-weight="700">${g.n}</text>`;
-  });
+    s+=`<text x="${(x1+x2)/2}" y="${gy+18}" text-anchor="middle" font-size="14" font-weight="700">${g.n}</text>`; });
 
-  // ----- 이고그램 선 (5점) -----
-  const egoPts=COLS.map((c,i)=>({x:cx(i), y:y(clamp(ego[c.key])), v:ego[c.key], has:ego[c.key]>0}));
-  drawLine(egoPts, "var(--ego)");
-
-  // ----- OK그램 선 (4점, A 제외) -----
-  const okIdx=[0,1,3,4];
-  const okPts=okIdx.map(i=>({x:cx(i), y:y(clamp(ok[COLS[i].ok])), v:ok[COLS[i].ok], has:ok[COLS[i].ok]>0}));
-  drawLine(okPts, "var(--ok)");
-
-  function clamp(v){ return Math.max(vMin, Math.min(vMax, v||vMin)); }
-  function drawLine(pts, color){
+  const egoPts=COLS.map((c,i)=>({x:cx(i),y:y(ego[c.key]),v:ego[c.key],has:ego[c.key]>0}));
+  drawLine(egoPts,"var(--ego)");
+  const okPts=[0,1,3,4].map(i=>({x:cx(i),y:y(ok[COLS[i].ok]),v:ok[COLS[i].ok],has:ok[COLS[i].ok]>0}));
+  drawLine(okPts,"var(--ok)");
+  function drawLine(pts,color){
     const valid=pts.filter(p=>p.has);
-    if(valid.length>=2){
-      const d=valid.map((p,k)=>(k?"L":"M")+p.x+" "+p.y).join(" ");
-      s+=`<path d="${d}" fill="none" stroke="${color}" stroke-width="2.4" stroke-linejoin="round"/>`;
-    }
-    pts.forEach(p=>{
-      if(!p.has) return;
+    if(valid.length>=2){ const d=valid.map((p,k)=>(k?"L":"M")+p.x+" "+p.y).join(" ");
+      s+=`<path d="${d}" fill="none" stroke="${color}" stroke-width="2.4" stroke-linejoin="round"/>`; }
+    pts.forEach(p=>{ if(!p.has)return;
       s+=`<circle cx="${p.x}" cy="${p.y}" r="4.5" fill="#fff" stroke="${color}" stroke-width="2.4"/>`;
-      s+=`<text x="${p.x}" y="${p.y-11}" text-anchor="middle" font-size="11.5" font-weight="700" fill="${color}">${p.v}</text>`;
-    });
+      s+=`<text x="${p.x}" y="${p.y-11}" text-anchor="middle" font-size="11.5" font-weight="700" fill="${color}">${p.v}</text>`; });
   }
-
   s+=`</svg>`;
   document.getElementById("chart").innerHTML=s;
 
-  // 합계 표
-  const tt=document.getElementById("totals");
   let html="";
-  COLS.forEach(c=>{
-    html+=`<div class="tot"><small>${c.label}${c.sub}</small><b>${ego[c.key]}</b>이고그램</div>`;
-  });
-  ["U-","U+","I+","I-"].forEach(k=>{
-    html+=`<div class="tot" style="border-color:#e7c4b3"><small>${k}</small><b style="color:var(--ok)">${ok[k]}</b>OK그램</div>`;
-  });
-  tt.innerHTML=html;
-
+  COLS.forEach(c=>{ html+=`<div class="tot"><small>${c.label}${c.sub}</small><b>${ego[c.key]}</b>이고그램</div>`; });
+  ["U-","U+","I+","I-"].forEach(k=>{ html+=`<div class="tot" style="border-color:#e7c4b3"><small>${k}</small><b style="color:var(--ok)">${ok[k]}</b>OK그램</div>`; });
+  document.getElementById("totals").innerHTML=html;
   const c=counts();
-  document.getElementById("editorNote").innerHTML =
-    `※ 각 척도는 해당 10문항 응답(1~5점)의 합계이며 범위는 10~50점입니다. `+
-    `현재 이고그램 ${c.e}/50, OK그램 ${c.o}/40 응답 — 미응답 문항은 0점으로 계산됩니다. `+
-    `그래프는 인쇄(⌘P) 또는 화면 캡처로 저장할 수 있습니다.`;
+  document.getElementById("editorNote").innerHTML=
+    `※ 각 척도는 해당 10문항 응답(1~5점)의 합계(10~50점). 회색 밴드 = ${gender==="남"?"남성":"여성"} 등 양 성별 ‘보통(평균)’ 범위(우재현, 2005). `+
+    `현재 이고그램 ${c.e}/50, OK그램 ${c.o}/40 응답. 인쇄(⌘P) 또는 캡처로 저장 가능.`;
 }
 
-/* ===== 버튼 ===== */
-document.getElementById("drawBtn").addEventListener("click",()=>{
-  drawChart();
+function rowI(name,sub,score,level,desc){
+  return `<div class="irow"><div class="iname">${name}<small>${sub}</small></div>`+
+    `<div class="ibody"><span class="score-big">${score}점</span> <span class="badge ${lvClass(level)}">${lvLabel(level)}</span><br>${desc}</div></div>`;
+}
+
+function renderInterp(){
+  const {ego,ok}=totals(); const c=counts(); const el=document.getElementById("interp");
+  let h=`<h3>해석</h3>`;
+  if(c.e<50||c.o<40) h+=`<div class="warn">아직 모든 문항에 응답하지 않았습니다 (이고그램 ${c.e}/50, OK그램 ${c.o}/40). 미응답 문항은 0점으로 계산되어 해석이 정확하지 않을 수 있습니다.</div>`;
+
+  // 1. 자아상태별
+  h+=`<h4>1. 자아상태별 (이고그램) — ${gender==="남"?"남성":"여성"} 평균 기준</h4>`;
+  COLS.forEach(c0=>{ const k=c0.key, sc=ego[k], lv=egoLevel(k,sc);
+    const d=lv>0?EGO_INT[k].high:(lv<0?EGO_INT[k].low:EGO_INT[k].mid);
+    h+=rowI(EGO_NAME[k],`보통범위 ${NORMS[gender][k][0]}~${NORMS[gender][k][1]}점`,sc,lv,d); });
+
+  // 2. 대표 패턴
+  const lvVec=COLS.map(c0=>egoLevel(c0.key,ego[c0.key]));
+  let best=null,bestScore=-1e9;
+  PATTERNS.forEach(p=>{ let dot=0; for(let i=0;i<5;i++)dot+=p.sig[i]*lvVec[i];
+    if(dot>bestScore){bestScore=dot;best=p;} });
+  const allMid=lvVec.every(v=>v===0);
+  h+=`<h4>2. 이고그램 대표 패턴 (참고)</h4>`;
+  if(allMid){ h+=`<div class="card2"><div class="ttl">균형형</div><div class="sub">5개 자아상태가 모두 보통 범위</div>다섯 자아상태가 모두 평균 범위에 있어 ∧형(원만)에 가까운 균형 잡힌 형태입니다.</div>`; }
+  else{ h+=`<div class="card2"><div class="ttl">${best.name}</div><div class="sub">현재 점수 프로파일과 가장 가까운 전형 패턴 (확정 진단 아님)</div>${best.desc}</div>`; }
+
+  // 3. 인생태도별
+  h+=`<h4>3. 인생태도별 (OK그램)</h4>`;
+  [["I+",ok["I+"]],["I-",ok["I-"]],["U+",ok["U+"]],["U-",ok["U-"]]].forEach(([k,sc])=>{
+    const lv=okLevel(sc); const d=lv>0?OK_INT[k].high:(lv<0?OK_INT[k].low:OK_INT[k].mid);
+    h+=rowI(OK_NAME[k],"보통범위 25~39점",sc,lv,d); });
+
+  // 4. OK 코랄 영역(면적법)
+  h+=`<h4>4. 인생태도 영역 — OK 코랄 (면적법)</h4>`;
+  const areas=POSITIONS.map(p=>({p,val:p.calc(ok)})).sort((a,b)=>b.val-a.val);
+  const win=areas[0];
+  h+=`<div class="card2"><div class="ttl">주된 인생태도 : ${win.p.title}</div>`+
+     `<div class="sub">두 점수의 곱(면적)이 가장 넓은 영역이 주된 태도 (윤영진 외, 2016)</div>${win.p.desc}`+
+     `<div class="areas">`+areas.map(a=>`<div class="area${a===win?' win':''}">${a.p.title.split(' · ')[0]}<br><b>${a.val.toLocaleString()}</b></div>`).join('')+`</div></div>`;
+  // 부등호 기반 표기
+  const lp = (ok["I+"]>=ok["I-"]?"자기긍정":"자기부정")+" · "+(ok["U+"]>=ok["U-"]?"타인긍정":"타인부정");
+  h+=`<p class="note">점수 비교 기준: I+ ${ok["I+"]} ${ok["I+"]>=ok["I-"]?"≥":"<"} I- ${ok["I-"]}, U+ ${ok["U+"]} ${ok["U+"]>=ok["U-"]?"≥":"<"} U- ${ok["U-"]} → <b>${lp}</b> 경향.</p>`;
+
+  // 5. 통합 해석
+  h+=`<h4>5. 통합 해석 (자아상태 ↔ 인생태도)</h4>`;
+  const E=(k)=>egoLevel(k,ego[k]); const O=(k)=>okLevel(ok[k]);
+  const msgs=[];
+  if(E("NP")>=0&&E("A")>=0&&E("FC")>=0&&O("I+")>0&&O("U+")>0)
+    msgs.push("NP·A·FC 에너지가 살아 있고 자기긍정(I+)·타인긍정(U+)이 높아 <b>건강한 심리 구조</b>로 볼 수 있습니다. 현재의 강점을 유지·발전시키는 방향이 권장됩니다.");
+  if(E("AC")>0&&E("FC")<0&&O("I-")>0)
+    msgs.push("AC(순응·억압) 에너지가 강하고 FC가 낮으며 자기부정(I-)이 높습니다. 자신에 대한 부정적 인식과 타인 의존이 함께 나타나기 쉬워, <b>FC 활성화·자기가치감 회복·I+ 강화</b>가 도움이 됩니다.");
+  if(E("CP")>0&&E("NP")<0&&O("U-")>0)
+    msgs.push("CP(비판적 부모)가 강하고 NP가 낮으며 타인부정(U-)이 높습니다. 타인에 대한 비판·통제 경향이 인생태도에도 반영된 일관된 패턴으로, <b>NP 활성화·타인 수용 경험 확장</b>이 권장됩니다.");
+  if(E("CP")>0&&E("AC")>0&&E("NP")<0&&E("FC")<0)
+    msgs.push("CP·AC가 높고 NP·FC가 낮은 V형·W형 경향으로, 자유로운 표현과 억압이 동시에 강한 <b>내적 갈등 상태</b>일 수 있습니다. 자기긍정과 자기부정이 혼재할 가능성이 있어 감정 처리·갈등 탐색이 우선 과제입니다.");
+  if(!msgs.length) msgs.push("이고그램과 OK그램 결과를 함께 놓고, 일치하는 부분은 핵심 특성으로, 불일치하는 부분은 내면의 갈등·방어의 신호로 살펴보세요. 결과는 고정된 성격이 아니라 ‘현재 경향’이며 상담·노력으로 변화할 수 있습니다.");
+  h+=`<div class="card2">`+msgs.map(m=>`<p style="margin:0 0 10px">• ${m}</p>`).join('')+`</div>`;
+
+  h+=`<p class="disc">⚠️ 이 검사는 고정불변의 성격을 단정하는 도구가 아니라 <b>현재의 심적 에너지 배분·인생태도 경향</b>을 보여줍니다. 점수가 높다고 반드시 좋거나 나쁜 것이 아니며, 단일 점수보다 전체 균형·패턴을 종합적으로 보아야 합니다. 정식 해석·상담은 전문가와 함께 진행하세요. (출처: 우재현 2005; 윤영진 외 2016; 장여반·허만세 2025)</p>`;
+  el.innerHTML=h;
+}
+
+function showResult(){
+  drawChart(); renderInterp();
   document.getElementById("result").classList.add("show");
   document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
   document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
   document.getElementById("resTab").classList.add("active");
   document.getElementById("panel-res").classList.add("active");
-  window.scrollTo({top:0,behavior:"smooth"});
-});
+}
+function syncGenderBtns(){ document.querySelectorAll(".gbtn").forEach(b=>b.classList.toggle("on",b.dataset.g===gender)); }
+syncGenderBtns();
+document.querySelectorAll(".gbtn").forEach(b=>b.addEventListener("click",()=>{
+  gender=b.dataset.g; save(); syncGenderBtns();
+  if(document.getElementById("result").classList.contains("show")){ drawChart(); renderInterp(); }
+}));
 
+document.getElementById("drawBtn").addEventListener("click",()=>{ showResult(); window.scrollTo({top:0,behavior:"smooth"}); });
 document.getElementById("resetBtn").addEventListener("click",()=>{
-  if(!confirm("모든 응답을 지울까요?")) return;
-  for(const k in ans) delete ans[k];
-  localStorage.removeItem("egook");
-  renderList(EGO,"ego","ego-list");
-  renderList(OK,"ok","ok-list");
-  updateProgress();
+  if(!confirm("모든 응답을 지울까요?"))return;
+  for(const k in ans)delete ans[k]; localStorage.removeItem("egook");
+  renderList(EGO,"ego","ego-list"); renderList(OK,"ok","ok-list"); updateProgress();
   document.getElementById("result").classList.remove("show");
 });
 </script>
