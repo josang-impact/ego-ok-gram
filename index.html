@@ -454,15 +454,27 @@ function renderInterp(){
     const d=lv>0?EGO_INT[k].high:(lv<0?EGO_INT[k].low:EGO_INT[k].mid);
     h+=rowI(EGO_NAME[k],`보통범위 ${NORMS[gender][k][0]}~${NORMS[gender][k][1]}점`,sc,lv,d); });
 
-  // 2. 대표 패턴
+  // 2. 내 점수 요약 (+ 진짜로 들어맞을 때만 전형 패턴 참고)
   const lvVec=COLS.map(c0=>egoLevel(c0.key,ego[c0.key]));
-  let best=null,bestScore=-1e9;
-  PATTERNS.forEach(p=>{ let dot=0; for(let i=0;i<5;i++)dot+=p.sig[i]*lvVec[i];
-    if(dot>bestScore){bestScore=dot;best=p;} });
-  const allMid=lvVec.every(v=>v===0);
-  h+=`<h4>2. 이고그램 대표 패턴 (참고)</h4>`;
-  if(allMid){ h+=`<div class="card2"><div class="ttl">균형형</div><div class="sub">5개 자아상태가 모두 보통 범위</div>다섯 자아상태가 모두 평균 범위에 있어 ∧형(원만)에 가까운 균형 잡힌 형태입니다.</div>`; }
-  else{ h+=`<div class="card2"><div class="ttl">${best.name}</div><div class="sub">현재 점수 프로파일과 가장 가까운 전형 패턴 (확정 진단 아님)</div>${best.desc}</div>`; }
+  const sorted=COLS.map(c0=>({k:c0.key,v:ego[c0.key],lv:egoLevel(c0.key,ego[c0.key])})).sort((a,b)=>b.v-a.v);
+  const top=sorted[0], bottom=sorted[sorted.length-1];
+  const highs=sorted.filter(x=>x.lv>0).map(x=>x.k);
+  const lows=sorted.filter(x=>x.lv<0).map(x=>x.k);
+  let summary=`가장 높은 자아상태는 <b>${top.k} (${top.v}점)</b>, 가장 낮은 자아상태는 <b>${bottom.k} (${bottom.v}점)</b>입니다. `;
+  if(highs.length) summary+=`평균보다 <b>높은</b> 영역: ${highs.join("·")}. `;
+  if(lows.length) summary+=`평균보다 <b>낮은</b> 영역: ${lows.join("·")}. `;
+  if(!highs.length&&!lows.length) summary+=`다섯 자아상태가 모두 평균(보통) 범위 안에 있어 비교적 균형 잡힌 형태입니다. `;
+  // 엄격 매칭: 패턴이 지정한 높음(+)/낮음(-) 영역이 실제로 모두 그래야만 인정
+  const matched=PATTERNS.filter(p=>{ for(let i=0;i<5;i++){ if(p.sig[i]>0&&lvVec[i]<=0)return false; if(p.sig[i]<0&&lvVec[i]>=0)return false; } return true; });
+  let bm=null,bd=-1e9; matched.forEach(p=>{ let d=0; for(let i=0;i<5;i++)d+=p.sig[i]*lvVec[i]; if(d>bd){bd=d;bm=p;} });
+  h+=`<h4>2. 내 이고그램 점수 요약</h4>`;
+  h+=`<div class="card2"><div class="ttl">내 점수 분포</div>${summary}`;
+  if(bm){
+    h+=`<div style="margin-top:12px;padding-top:12px;border-top:1px solid #eceae6"><b>참고 — 내 점수와 들어맞는 전형 패턴: ${bm.name}</b><br><span style="font-size:12.5px;color:#555">${bm.desc}</span></div>`;
+  } else {
+    h+=`<div style="margin-top:10px;font-size:12.5px;color:#888">※ 특정 전형 패턴(∧·N·역N·V·W·M·우경사형)에 뚜렷이 해당하지는 않습니다. 위의 ‘내 점수 분포’를 중심으로 해석하세요.</div>`;
+  }
+  h+=`</div>`;
 
   // 3. 인생태도별
   h+=`<h4>3. 인생태도별 (OK그램)</h4>`;
